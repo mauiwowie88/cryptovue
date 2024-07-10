@@ -1,4 +1,5 @@
-# CryptoVue is a Vue.js application that fetches and displays cryptocurrency data. The app uses Element Plus for UI components, ApexCharts for data visualization, and CoinGecko's public API to fetch the latest cryptocurrency data.
+# CryptoVue 
+A Vue.js application that fetches and displays cryptocurrency data. The app uses Element Plus for UI components, ApexCharts for data visualization, and CoinGecko's public API to fetch the latest cryptocurrency data.
 
 ## Project setup
 
