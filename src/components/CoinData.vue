@@ -1,12 +1,10 @@
 <template>
-  <div id="data-container">
-    <div v-for="coin in coins" :key="coin.id" class="coin">
-      <p>Name: {{ coin.name }}</p>
-      <p>Last Updated: {{ formatDate(coin.last_updated) }}</p>
-      <p>Current Price: ${{ coin.current_price }}</p>
-      <p>Market Cap: ${{ coin.market_cap }}</p>
-      <p>Popularity (Market Cap Rank): {{ coin.market_cap_rank }}</p>
-    </div>
+  <div>
+    <p>{{ coin.id }}</p>
+    <p>Last Updated {{ formatDate(coin.last_updated) }}</p>
+    <p>Current Price: ${{ coin.current_price }}</p>
+    <p>Market Cap: ${{ coin.market_cap }}</p>
+    <p>Popularity #{{ coin.market_rank }}</p>
   </div>
 </template>
 
@@ -14,10 +12,13 @@
 export default {
   name: "CoinData",
   props: {
-    coins: {
-      type: Array,
+    coin: {
+      type: Object,
       required: true,
     },
+  },
+  data() {
+    return {};
   },
   methods: {
     formatDate(timestamp) {
