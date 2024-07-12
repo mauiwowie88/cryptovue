@@ -92,7 +92,7 @@ export default {
 .cards-container {
   display: flex;
   justify-content: center;
-  width: 100%;
+  flex-direction: row;
 }
 
 .card-column {
@@ -121,5 +121,11 @@ export default {
   font-weight: var(--font-weight-bold);
   text-align: center;
   margin: 0;
+}
+
+@media (max-width: 768px) {
+  .cards-container {
+    flex-direction: column; /* Change to column direction on small screens */
+  }
 }
 </style>
