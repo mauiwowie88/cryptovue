@@ -1,0 +1,47 @@
+:root {
+  /* Breakpoints */
+  --breakpoint-sm: 768px;
+  --breakpoint-lg: 1440px;
+
+  /* Background Elements */
+  --bg-1: #ffffff;
+  --bg-2: #f4f7f6;
+  --bg-3: #e8eeec;
+  --bg-4: #cddbd4;
+
+  /* Foreground Elements */
+  --fg-1: #272a29;
+  --fg-2: #6d7572;
+
+  /* Theme Colors */
+  --theme-btc: #f4733a;
+  --theme-eth: #59e9d5;
+
+  /* System Feedback */
+  --color-success: #49b735;
+  --color-error: #eb425a;
+  --color-info: #36a8ee;
+
+  /* Font Sizes */
+  --font-size-title1: 60px;
+  --font-size-title2: 40px;
+  --font-size-title3: 30px;
+  --font-size-body: 24px;
+  --font-size-caption: 20px;
+
+  /* Line Heights */
+  --line-height-title1: 72px;
+  --line-height-title2: 48px;
+  --line-height-title3: 36px;
+  --line-height-body: 30px;
+  --line-height-caption: 24px;
+
+  /* Font Weights */
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+}
+
+* {
+  font-family: "Outfit", sans-serif;
+}
