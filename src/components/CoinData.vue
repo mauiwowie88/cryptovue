@@ -1,7 +1,12 @@
 <template>
   <div class="coin-data-container">
     <h1 class="coin-name">{{ capitalizedCoinId }}</h1>
-    <p class="last-updated">Last Updated {{ formatDate(coin.last_updated) }}</p>
+    <!-- <p class="last-updated">Last Updated {{ formatDate(coin.last_updated) }}</p> -->
+    <p class="last-updated">
+      <span>Last Updated</span>
+
+      <span class="breakpoint">{{ formatDate(coin.last_updated) }}</span>
+    </p>
     <el-row class="cards-container">
       <el-col v-for="info in coinInfo" :key="info.title" class="card-column">
         <el-card class="card">
@@ -78,21 +83,30 @@ export default {
 }
 
 .coin-name {
-  margin-bottom: 0;
   line-height: var(--line-height-title1);
   font-size: var(--font-size-title1);
+  margin-top: var(--line-height-title2);
 }
 
 .last-updated {
   line-height: var(--line-height-body);
   font-size: var(--font-size-body);
   color: var(--fg-2);
+  margin: var(--line-height-caption) 0;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.breakpoint {
+  margin-left: 0.5rem; /* Adjust as needed */
 }
 
 .cards-container {
   display: flex;
   justify-content: center;
   flex-direction: row;
+  margin-top: var(--line-height-body);
 }
 
 .card-column {
@@ -126,6 +140,14 @@ export default {
 @media (max-width: 768px) {
   .cards-container {
     flex-direction: column; /* Change to column direction on small screens */
+  }
+  .last-updated {
+    font-size: var(--font-size-caption);
+    flex-direction: column; /* Force column direction on small screens */
+  }
+  .breakpoint {
+    display: block;
+    margin-left: 0; /* Remove margin for small screens */
   }
 }
 </style>

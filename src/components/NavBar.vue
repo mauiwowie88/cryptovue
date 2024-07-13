@@ -46,16 +46,22 @@ nav {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 .logo {
-  margin: 1rem;
+  margin: 1rem auto;
 }
 .coin-image {
   height: 370px;
   width: 100%;
   object-fit: cover;
+  margin: 0 auto;
 }
 @media (max-width: 768px) {
+  .logo {
+    width: 15rem;
+  }
   .coin-image {
     height: 240px;
   }
