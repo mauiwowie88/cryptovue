@@ -7,20 +7,20 @@
       :toggle-coin="(index) => (selectedCoin = index)"
       :selectedCoin="selectedCoin"
     />
-    <CoinData v-if="coins.length > 0" :coin="coins[selectedCoin]" />
+    <CoinSection v-if="coins.length > 0" :coin="coins[selectedCoin]" />
   </div>
 </template>
 
 <script>
 import NavBar from "./components/NavBar.vue";
-import CoinData from "./components/CoinSection.vue";
+import CoinSection from "./components/CoinSection.vue";
 import { fetchCoinData } from "./utils/api";
 
 export default {
   name: "App",
   components: {
     NavBar,
-    CoinData,
+    CoinSection,
   },
   data() {
     return {
