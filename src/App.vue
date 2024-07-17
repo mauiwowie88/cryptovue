@@ -8,40 +8,43 @@
       :selectedCoin="selectedCoin"
     />
     <CoinSection v-if="coins.length > 0" :coin="coins[selectedCoin]" />
+    <CoinChart
+      v-if="historicalData.bitcoin.length && historicalData.ethereum.length"
+      :historicalData="historicalData"
+    />
   </div>
 </template>
 
 <script>
 import NavBar from "./components/NavBar.vue";
 import CoinSection from "./components/CoinSection.vue";
-import { fetchCoinData } from "./utils/api";
-import { getCachedCoins, setCachedCoins } from "./utils/cache";
+import CoinChart from "./components/CoinChart.vue";
+import { fetchCoinData, fetchHistoricalData } from "./utils/api";
+import {
+  getCachedCoins,
+  setCachedCoins,
+  getCachedChartData,
+  setCachedChartData,
+} from "./utils/cache";
 
 export default {
   name: "App",
   components: {
     NavBar,
     CoinSection,
+    CoinChart,
   },
   data() {
     return {
       selectedCoin: 1,
       coins: [],
+      historicalData: {
+        bitcoin: [],
+        ethereum: [],
+      },
     };
   },
   methods: {
-    async loadData() {
-      try {
-        const coins = await fetchCoinData();
-        if (!coins) {
-          throw new Error("Coins data is undefined");
-        }
-        this.coins = coins;
-        setCachedCoins(coins);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    },
     async fetchCachedData() {
       const cachedCoins = getCachedCoins();
       if (cachedCoins) {
@@ -52,9 +55,36 @@ export default {
         await this.loadData();
       }
     },
+    async loadData() {
+      try {
+        const coins = await fetchCoinData();
+        this.coins = coins;
+        setCachedCoins(coins);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    },
+    async loadHistoricalData() {
+      try {
+        const cachedChartData = getCachedChartData();
+        if (cachedChartData) {
+          this.historicalData = cachedChartData;
+        } else {
+          const bitcoinData = await fetchHistoricalData("bitcoin");
+          const ethereumData = await fetchHistoricalData("ethereum");
+
+          this.historicalData.bitcoin = bitcoinData;
+          this.historicalData.ethereum = ethereumData;
+          setCachedChartData(this.historicalData);
+        }
+      } catch (error) {
+        console.error("Error fetching historical data:", error);
+      }
+    },
   },
   created() {
     this.fetchCachedData();
+    this.loadHistoricalData();
   },
 };
 </script>

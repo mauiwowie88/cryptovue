@@ -27,3 +27,47 @@ export async function fetchCoinData() {
     throw error;
   }
 }
+
+export async function fetchHistoricalData(coinId) {
+  const proxyUrl = "https://api.allorigins.win/get?url=";
+  const apiUrl = `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=90&interval=daily`;
+
+  try {
+    const response = await axios.get(proxyUrl + encodeURIComponent(apiUrl));
+    const jsonData = JSON.parse(response.data.contents);
+
+    if (!jsonData || !jsonData.prices) {
+      throw new Error("Invalid data received from API");
+    }
+    const weeklyData = jsonData.prices.map(([timestamp, price]) => ({
+      date: new Date(timestamp).toLocaleDateString(),
+      price,
+    }));
+    return weeklyData;
+  } catch (error) {
+    console.error(`Error fetching historical data for ${coinId}:`, error);
+    throw error;
+  }
+}
+
+export const getCoinData = async () => {
+  try {
+    const coins = await fetchCoinData();
+    if (!coins) throw new Error("Coins data is undefined");
+    return coins;
+  } catch (error) {
+    console.error("Error fetching coin data:", error);
+    throw error;
+  }
+};
+
+export const getHistoricalData = async (coin) => {
+  try {
+    const data = await fetchHistoricalData(coin);
+    if (!data) throw new Error(`Historical data for ${coin} is undefined`);
+    return data;
+  } catch (error) {
+    console.error(`Error fetching historical data for ${coin}:`, error);
+    throw error;
+  }
+};
