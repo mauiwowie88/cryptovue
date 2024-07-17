@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="chart">
     <apexchart
       type="line"
       :options="chartOptions"
@@ -89,4 +89,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.chart {
+  width: 99%;
+}
+</style>
