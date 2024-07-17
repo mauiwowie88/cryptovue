@@ -1,11 +1,13 @@
 # Set the default behavior to automatically normalize line endings.
 * text=auto
 
-# Declare files that will always have LF line endings on checkout.
+# Explicitly set text files to use LF line endings.
 *.sh text eol=lf
 *.yml text eol=lf
 *.yaml text eol=lf
 *.md text eol=lf
+*.vue text eol=lf
+*.js text eol=lf
 
-# Declare files that will always have CRLF line endings on checkout.
+# Explicitly set Windows-specific files to use CRLF line endings.
 *.bat text eol=crlf
