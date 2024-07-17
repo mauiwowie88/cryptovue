@@ -1,17 +1,101 @@
 <template>
-  <div>
+  <div class="coin-chart">
     <apexchart
-      v-if="isClient"
-      type="line"
-      :options="chartOptions"
-      :series="series"
       width="100%"
       height="400"
+      type="line"
+      :options="options"
+      :series="series"
     ></apexchart>
   </div>
 </template>
 
 <script>
+import ApexCharts from "vue3-apexcharts";
+export default {
+  name: "CoinChart",
+  components: {
+    apexchart: ApexCharts,
+  },
+  props: {
+    historicalData: {
+      type: Object,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      options: {
+        chart: {
+          id: "vuechart-example",
+          toolbar: {
+            show: false,
+          },
+        },
+        xaxis: {
+          categories: [],
+          axisTicks: {
+            show: false,
+          },
+        },
+        yaxis: {
+          labels: {
+            show: false,
+          },
+        },
+        grid: {
+          show: false,
+        },
+      },
+      series: [],
+    };
+  },
+  watch: {
+    historicalData: {
+      immediate: true,
+      handler(newData) {
+        this.updateChart(newData);
+      },
+    },
+  },
+  methods: {
+    updateChart(data) {
+      if (!data) {
+        console.error("No historical data provided");
+        return;
+      }
+
+      const bitcoinPrices = data.bitcoin.map((item) => item.price ?? 0);
+      const ethereumPrices = data.ethereum.map((item) => item.price ?? 0);
+      const categories = data.bitcoin.map((item) => item.date);
+
+      this.series = [
+        { name: "Bitcoin", data: bitcoinPrices },
+        { name: "Ethereum", data: ethereumPrices },
+      ];
+
+      this.options = {
+        ...this.options,
+        xaxis: {
+          ...this.options.xaxis,
+          categories,
+        },
+      };
+    },
+  },
+  created() {
+    console.log("1", this.historicalData);
+  },
+};
+</script>
+
+<style scoped>
+.coin-chart {
+  padding: 0 4rem;
+}
+</style>
+
+<!-- <script>
 import ApexCharts from "vue3-apexcharts";
 
 export default {
@@ -36,7 +120,7 @@ export default {
         xaxis: {
           categories: [],
           labels: {
-            show: false,
+            show: true,
           },
           axisBorder: {
             show: false,
@@ -113,8 +197,4 @@ export default {
     },
   },
 };
-</script>
-
-<style scoped>
-/* Add your styles here */
-</style>
+</script> -->

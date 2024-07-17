@@ -30,7 +30,7 @@ export async function fetchCoinData() {
 
 export async function fetchHistoricalData(coinId) {
   const proxyUrl = "https://api.allorigins.win/get?url=";
-  const apiUrl = `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=90&interval=daily`;
+  const apiUrl = `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=5&interval=daily`;
 
   try {
     const response = await axios.get(proxyUrl + encodeURIComponent(apiUrl));
@@ -63,9 +63,9 @@ export const getCoinData = async () => {
 
 export const getHistoricalData = async (coin) => {
   try {
-    const data = await fetchHistoricalData(coin);
-    if (!data) throw new Error(`Historical data for ${coin} is undefined`);
-    return data;
+    const history = await fetchHistoricalData(coin);
+    if (!history) throw new Error(`Historical data for ${coin} is undefined`);
+    return history;
   } catch (error) {
     console.error(`Error fetching historical data for ${coin}:`, error);
     throw error;
