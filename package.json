@@ -9,9 +9,11 @@
   },
   "dependencies": {
     "apexcharts": "^3.50.0",
+    "axios": "^1.7.2",
     "core-js": "^3.8.3",
     "element-plus": "^2.7.6",
-    "vue": "^3.2.13"
+    "vue": "^3.2.13",
+    "vue-apexcharts": "^1.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

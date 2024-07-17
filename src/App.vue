@@ -15,6 +15,7 @@
 import NavBar from "./components/NavBar.vue";
 import CoinSection from "./components/CoinSection.vue";
 import { fetchCoinData } from "./utils/api";
+import { getCachedCoins, setCachedCoins } from "./utils/cache";
 
 export default {
   name: "App",
@@ -31,14 +32,29 @@ export default {
   methods: {
     async loadData() {
       try {
-        this.coins = await fetchCoinData();
+        const coins = await fetchCoinData();
+        if (!coins) {
+          throw new Error("Coins data is undefined");
+        }
+        this.coins = coins;
+        setCachedCoins(coins);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     },
+    async fetchCachedData() {
+      const cachedCoins = getCachedCoins();
+      if (cachedCoins) {
+        console.log("Using cached data");
+        this.coins = cachedCoins;
+      } else {
+        console.log("No cached data found, fetching new data");
+        await this.loadData();
+      }
+    },
   },
   created() {
-    this.loadData();
+    this.fetchCachedData();
   },
 };
 </script>

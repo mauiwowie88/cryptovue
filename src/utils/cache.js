@@ -1,22 +1,21 @@
-// src/utils/cache.js
-export function getCachedData(key) {
-  const cached = localStorage.getItem(key);
-  if (!cached) return null;
+const CACHE_KEY = "CoinKey";
+const CACHE_TIMESTAMP_KEY = "CoinTimestamp";
 
-  const { data, timestamp } = JSON.parse(cached);
+export function getCachedCoins() {
+  const cachedCoins = localStorage.getItem(CACHE_KEY);
+  const cachedTimestamp = localStorage.getItem(CACHE_TIMESTAMP_KEY);
+  if (!cachedCoins || !cachedTimestamp) return null;
+
   const now = new Date().getTime();
-
-  // Check if the cached data is older than 5 minutes (5 * 60 * 1000 ms)
-  if (now - timestamp > 5 * 60 * 1000) {
-    localStorage.removeItem(key);
+  if (now - parseInt(cachedTimestamp, 10) > 10 * 60 * 1000) {
+    console.log("Data is older than 10 minutes, fetching new data");
     return null;
   }
 
-  return data;
+  return JSON.parse(cachedCoins);
 }
 
-export function setCachedData(key, data) {
-  const timestamp = new Date().getTime();
-  const value = JSON.stringify({ data, timestamp });
-  localStorage.setItem(key, value);
+export function setCachedCoins(coins) {
+  localStorage.setItem(CACHE_KEY, JSON.stringify(coins));
+  localStorage.setItem(CACHE_TIMESTAMP_KEY, new Date().getTime().toString());
 }

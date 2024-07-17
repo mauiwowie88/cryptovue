@@ -1,4 +1,3 @@
-// src/utils/format.js
 export function formatDate(timestamp) {
   const date = new Date(timestamp);
   const dateOptions = { year: "numeric", month: "short", day: "numeric" };
