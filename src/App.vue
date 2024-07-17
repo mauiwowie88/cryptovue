@@ -10,7 +10,7 @@
     <CoinSection v-if="coins.length > 0" :coin="coins[selectedCoin]" />
     <CoinChart
       v-if="historicalData.bitcoin.length && historicalData.ethereum.length"
-      :historicalData="historicalData"
+      :historicalData="historicalData[coins[selectedCoin].id]"
     />
   </div>
 </template>
@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-      selectedCoin: 1,
+      selectedCoin: 0,
       coins: [],
       historicalData: {
         bitcoin: [],
@@ -58,8 +58,10 @@ export default {
     async loadData() {
       try {
         const coins = await fetchCoinData();
+        console.log("Fetched coin data", coins);
         this.coins = coins;
         setCachedCoins(coins);
+        console.log("Updated coins state after loadData:", this.coins);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -68,6 +70,7 @@ export default {
       try {
         const cachedChartData = getCachedChartData();
         if (cachedChartData) {
+          console.log("Using cached chart data", cachedChartData);
           this.historicalData = cachedChartData;
         } else {
           const bitcoinData = await fetchHistoricalData("bitcoin");

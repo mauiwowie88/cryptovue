@@ -1,6 +1,7 @@
 import axios from "axios";
 import bitcoin from "@/assets/images/bit.png";
 import ethereum from "@/assets/images/eth.png";
+// import { jsonParse } from "./format";
 
 export async function fetchCoinData() {
   const proxyUrl = "https://api.allorigins.win/get?url=";
@@ -27,13 +28,13 @@ export async function fetchCoinData() {
     throw error;
   }
 }
-
 export async function fetchHistoricalData(coinId) {
   const proxyUrl = "https://api.allorigins.win/get?url=";
   const apiUrl = `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=5&interval=daily`;
 
   try {
     const response = await axios.get(proxyUrl + encodeURIComponent(apiUrl));
+    // const jsonData = JSON.parse(response.data.contents);
     const jsonData = JSON.parse(response.data.contents);
 
     if (!jsonData || !jsonData.prices) {

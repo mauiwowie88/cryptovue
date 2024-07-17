@@ -1,9 +1,10 @@
 <template>
-  <div class="coin-chart">
+  <div class="chart">
+    <h1>Price</h1>
     <apexchart
       width="100%"
-      height="400"
-      type="line"
+      height="350"
+      type="area"
       :options="options"
       :series="series"
     ></apexchart>
@@ -27,7 +28,8 @@ export default {
     return {
       options: {
         chart: {
-          id: "vuechart-example",
+          id: "coinChart",
+          fontFamily: "Outfit, sans-serif",
           toolbar: {
             show: false,
           },
@@ -37,6 +39,19 @@ export default {
           axisTicks: {
             show: false,
           },
+          labels: {
+            style: {
+              colors: "#6d7572",
+              fontSize: "20px",
+            },
+            formatter: function (value) {
+              const date = new Date(value);
+              return date.toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+              });
+            },
+          },
         },
         yaxis: {
           labels: {
@@ -45,6 +60,50 @@ export default {
         },
         grid: {
           show: false,
+        },
+        stroke: {
+          colors: ["#59E9D5"],
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        fill: {
+          type: "gradient",
+          gradient: {
+            shadeIntensity: 0.5,
+            opacityFrom: 0.6,
+            opacityTo: 0.9,
+            colorStops: [
+              {
+                offset: 0,
+                color: "#59E9D5",
+                opacity: 0.69,
+              },
+              {
+                offset: 100,
+                color: "#59E9D5",
+                opacity: 0,
+              },
+            ],
+          },
+        },
+        tooltip: {
+          y: {
+            formatter: function (value) {
+              return value.toFixed(2);
+            },
+            title: {
+              formatter: () => "",
+            },
+            marker: {
+              show: true,
+              color: "#59e9d5",
+            },
+          },
+          marker: {
+            show: true,
+            fillColors: ["#59e9d5"],
+          },
         },
       },
       series: [],
@@ -60,19 +119,15 @@ export default {
   },
   methods: {
     updateChart(data) {
-      if (!data) {
-        console.error("No historical data provided");
+      if (!data || !Array.isArray(data)) {
+        console.error("No valid historical data provided");
         return;
       }
 
-      const bitcoinPrices = data.bitcoin.map((item) => item.price ?? 0);
-      const ethereumPrices = data.ethereum.map((item) => item.price ?? 0);
-      const categories = data.bitcoin.map((item) => item.date);
+      const prices = data.map((item) => item.price ?? 0);
+      const categories = data.map((item) => item.date);
 
-      this.series = [
-        { name: "Bitcoin", data: bitcoinPrices },
-        { name: "Ethereum", data: ethereumPrices },
-      ];
+      this.series = [{ name: "Price", data: prices }];
 
       this.options = {
         ...this.options,
@@ -83,118 +138,14 @@ export default {
       };
     },
   },
-  created() {
-    console.log("1", this.historicalData);
-  },
 };
 </script>
 
 <style scoped>
-.coin-chart {
-  padding: 0 4rem;
+h1 {
+  padding: 1.5rem;
+}
+.chart {
+  padding-bottom: 5rem;
 }
 </style>
-
-<!-- <script>
-import ApexCharts from "vue3-apexcharts";
-
-export default {
-  name: "CoinChart",
-  components: {
-    apexchart: ApexCharts,
-  },
-  data() {
-    return {
-      isClient: false,
-      series: [],
-      chartOptions: {
-        chart: {
-          id: "vuechart-example",
-          animations: {
-            enabled: true,
-          },
-          toolbar: {
-            show: false,
-          },
-        },
-        xaxis: {
-          categories: [],
-          labels: {
-            show: true,
-          },
-          axisBorder: {
-            show: false,
-          },
-          axisTicks: {
-            show: false,
-          },
-        },
-        yaxis: {
-          labels: {
-            show: false,
-          },
-          axisBorder: {
-            show: false,
-          },
-          axisTicks: {
-            show: false,
-          },
-        },
-        grid: {
-          show: false,
-        },
-        markers: {
-          size: 0,
-        },
-        tooltip: {
-          enabled: true,
-        },
-        stroke: {
-          curve: "smooth",
-        },
-      },
-    };
-  },
-  mounted() {
-    this.isClient = true;
-  },
-  props: {
-    historicalData: {
-      type: Object,
-      required: true,
-    },
-  },
-  watch: {
-    historicalData: {
-      immediate: true,
-      handler(newData) {
-        this.updateChart(newData);
-      },
-    },
-  },
-  methods: {
-    updateChart(data) {
-      if (!data || !data.bitcoin || !data.ethereum) {
-        console.error("Data is missing required properties");
-        return;
-      }
-
-      const bitcoinPrices = data.bitcoin.map((item) => item.close ?? 0);
-      const ethereumPrices = data.ethereum.map((item) => item.close ?? 0);
-
-      this.series = [
-        { name: "Bitcoin", data: bitcoinPrices },
-        { name: "Ethereum", data: ethereumPrices },
-      ];
-
-      this.chartOptions = {
-        ...this.chartOptions,
-        xaxis: {
-          ...this.chartOptions.xaxis,
-          categories: bitcoinPrices.map((_, index) => `Day ${index + 1}`),
-        },
-      };
-    },
-  },
-};
-</script> -->

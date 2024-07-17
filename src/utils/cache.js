@@ -1,3 +1,5 @@
+import { jsonParse } from "./format";
+
 const CACHE_KEY = "CoinKey";
 const CHART_DATA_KEY = "ChartData";
 const CACHE_TIMESTAMP_KEY = "CoinTimestamp";
@@ -14,7 +16,7 @@ export function getCachedCoins() {
     return null;
   }
 
-  return JSON.parse(cachedCoins);
+  return jsonParse(cachedCoins);
 }
 
 export function setCachedCoins(coins) {
@@ -33,7 +35,7 @@ export function getCachedChartData() {
     return null;
   }
 
-  return JSON.parse(cachedChartData);
+  return jsonParse(cachedChartData);
 }
 
 export function setCachedChartData(chartData) {
