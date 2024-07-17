@@ -88,6 +88,9 @@ export default {
           },
         },
         tooltip: {
+          x: {
+            format: "MMM dd 'at' HH:mm",
+          },
           y: {
             formatter: function (value) {
               return value.toFixed(2);
@@ -95,14 +98,10 @@ export default {
             title: {
               formatter: () => "",
             },
-            marker: {
-              show: true,
-              color: "#59e9d5",
-            },
           },
           marker: {
             show: true,
-            fillColors: ["#59e9d5"],
+            fillColors: ["#59E9D5"],
           },
         },
       },
@@ -142,10 +141,13 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-  padding: 1.5rem;
-}
 .chart {
-  padding-bottom: 5rem;
+  max-width: var(--breakpoint-lg);
+  margin: 5rem auto;
+}
+
+h1 {
+  font-size: var(--font-size-title2);
+  padding: 3.3rem 1rem;
 }
 </style>
